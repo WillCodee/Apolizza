@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apolizza Corretora de Seguros</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ===================== RESET & VARS ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green:   #5BCF72;
+      --yellow:  #F9C734;
+      --orange:  #F08030;
+      --coral:   #E8735A;
+      --dark:    #1C1C2E;
+      --gray:    #5a5a72;
+      --light:   #FFF8F6;
+      --white:   #ffffff;
+      --shadow:  0 4px 24px rgba(0,0,0,0.10);
+      --radius:  16px;
+      --transition: 0.3s cubic-bezier(.4,0,.2,1);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; color: var(--dark); background: var(--white); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    section { padding: 90px 0; }
+
+    /* ===================== UTILS ===================== */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section-label { font-size: 13px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; }
+    .section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 700; line-height: 1.2; color: var(--dark); margin-bottom: 20px; }
+    .section-title span { background: linear-gradient(90deg, var(--green), var(--yellow), var(--orange), var(--coral)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 50px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 15px; cursor: pointer; border: none; transition: var(--transition); white-space: nowrap; }
+    .btn-primary { background: linear-gradient(135deg, var(--orange), var(--coral)); color: white; box-shadow: 0 4px 20px rgba(232,115,90,0.4); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,115,90,0.5); }
+    .btn-outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.7); }
+    .btn-outline:hover { background: rgba(255,255,255,0.15); }
+    .btn-whatsapp { background: #25D366; color: white; box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+    .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,0.5); background: #1ebe59; }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ===================== HEADER ===================== */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 16px 0; transition: var(--transition); }
+    header.scrolled { background: rgba(255,255,255,0.97); backdrop-filter: blur(12px); box-shadow: 0 2px 20px rgba(0,0,0,0.08); padding: 10px 0; }
+    header .container { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .logo { display: flex; align-items: center; gap: 10px; background: none; padding: 0; box-shadow: none; }
+    .logo-icon-clip { height: 48px; width: 40px; overflow: hidden; flex-shrink: 0; }
+    .logo-icon-clip img { height: 48px; width: auto; max-width: none; display: block; }
+    .logo-text-group { display: flex; flex-direction: column; line-height: 1.15; }
+    .logo-title { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 900; letter-spacing: 0.3px; transition: color 0.3s; }
+    .logo-zz { color: var(--orange); }
+    .logo-subtitle { font-family: 'Nunito', sans-serif; font-size: 10.5px; font-weight: 600; letter-spacing: 0.2px; transition: color 0.3s; }
+    header:not(.scrolled) .logo-title { color: #ffffff; text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
+    header:not(.scrolled) .logo-subtitle { color: rgba(255,255,255,0.80); text-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+    header.scrolled .logo-title { color: var(--dark); }
+    header.scrolled .logo-subtitle { color: var(--gray); }
+    .logo-icon { display: none; }
+    .logo-icon-svg { display: none; }
+    .logo-text { display: none; }
+    nav { display: flex; align-items: center; gap: 32px; }
+    nav a { font-size: 14px; font-weight: 500; color: var(--dark); transition: var(--transition); position: relative; }
+    nav a::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px; background: var(--orange); transform: scaleX(0); transition: var(--transition); border-radius: 2px; }
+    nav a:hover::after { transform: scaleX(1); }
+    header.scrolled nav a { color: var(--dark); }
+    header:not(.scrolled) nav a { color: white; }
+    header:not(.scrolled) .logo-text { background: none; -webkit-text-fill-color: white; }
+    .header-cta { display: flex; align-items: center; gap: 12px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .hamburger span { width: 24px; height: 2px; border-radius: 2px; transition: var(--transition); }
+    header:not(.scrolled) .hamburger span { background: white; }
+    header.scrolled .hamburger span { background: var(--dark); }
+    .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--dark); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 22px; font-weight: 600; color: white; }
+    .mobile-menu .close-btn { position: absolute; top: 24px; right: 24px; background: none; border: none; color: white; font-size: 32px; cursor: pointer; }
+
+    /* ===================== HERO ===================== */
+    #hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 100px 0 60px; }
+    .hero-bg { position: absolute; inset: 0; background: url('https://images.pexels.com/photos/1128318/pexels-photo-1128318.jpeg?auto=compress&cs=tinysrgb&w=1600&q=80') center center / cover no-repeat; }
+    .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(20,18,36,0.82) 0%, rgba(38,22,50,0.72) 40%, rgba(50,22,22,0.65) 70%, rgba(20,18,36,0.80) 100%); }
+    .hero-orbs { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.20; animation: float 8s ease-in-out infinite; }
+    .orb-1 { width: 600px; height: 600px; background: var(--green); top: -150px; left: -150px; animation-delay: 0s; }
+    .orb-2 { width: 500px; height: 500px; background: var(--orange); top: 10%; right: -100px; animation-delay: -3s; }
+    .orb-3 { width: 400px; height: 400px; background: var(--coral); bottom: -80px; left: 35%; animation-delay: -6s; }
+    @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.05); } }
+    #hero .container { display: flex; align-items: center; }
+    .hero-content { position: relative; z-index: 2; max-width: 660px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 8px 18px; margin-bottom: 28px; }
+    .hero-badge span { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.9); }
+    .hero-badge .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.3); } }
+    .hero-title { font-size: clamp(36px, 5.5vw, 68px); font-weight: 800; line-height: 1.1; color: white; margin-bottom: 24px; }
+    .hero-title .gradient-text { background: linear-gradient(90deg, var(--green), var(--yellow), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-subtitle { font-size: 18px; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 40px; max-width: 520px; }
+    .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* ===================== SOBRE ===================== */
+    #sobre { background: var(--light); }
+    .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .sobre-text p { font-size: 16px; color: var(--gray); line-height: 1.8; margin-bottom: 16px; }
+    .sobre-text p strong { color: var(--dark); }
+    .stats-card { background: white; border-radius: var(--radius); padding: 40px; box-shadow: var(--shadow); display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .stat-item { text-align: center; }
+    .stat-number { font-size: 42px; font-weight: 800; background: linear-gradient(135deg, var(--orange), var(--coral)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+    .stat-label { font-size: 13px; color: var(--gray); margin-top: 6px; font-weight: 500; }
+
+    /* ===================== MISSÃO VISÃO VALORES ===================== */
+    #mvv { background: white; }
+    .mvv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 56px; }
+    .mvv-card { background: var(--light); border-radius: var(--radius); padding: 36px 30px; border: 1px solid rgba(0,0,0,0.05); transition: var(--transition); position: relative; overflow: hidden; }
+    .mvv-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 4px 4px 0 0; }
+    .mvv-card.missao::before { background: linear-gradient(90deg, var(--green), var(--yellow)); }
+    .mvv-card.visao::before { background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+    .mvv-card.valores::before { background: linear-gradient(90deg, var(--orange), var(--coral)); }
+    .mvv-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .mvv-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 26px; }
+    .mvv-card.missao .mvv-icon { background: linear-gradient(135deg, rgba(91,207,114,0.15), rgba(249,199,52,0.15)); }
+    .mvv-card.visao .mvv-icon { background: linear-gradient(135deg, rgba(249,199,52,0.15), rgba(240,128,48,0.15)); }
+    .mvv-card.valores .mvv-icon { background: linear-gradient(135deg, rgba(240,128,48,0.15), rgba(232,115,90,0.15)); }
+    .mvv-card h3 { font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
+    .mvv-card p { font-size: 14px; color: var(--gray); line-height: 1.7; }
+    .valores-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .tag { padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 600; background: linear-gradient(135deg, rgba(240,128,48,0.12), rgba(232,115,90,0.12)); color: var(--orange); }
+
+    /* ===================== EQUIPE ===================== */
+    #equipe { background: var(--light); }
+    .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 36px; max-width: 700px; margin: 56px auto 0; }
+    .team-card { background: white; border-radius: var(--radius); padding: 40px 32px; text-align: center; box-shadow: var(--shadow); transition: var(--transition); }
+    .team-card:hover { transform: translateY(-6px); }
+    .team-photo { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 44px; font-weight: 800; color: white; background: linear-gradient(135deg, var(--green), var(--yellow), var(--orange), var(--coral)); position: relative; overflow: hidden; }
+    .team-photo img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .team-name { font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .team-role { font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+    .team-bio { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+    /* ===================== SEGUROS ===================== */
+    #seguros { background: white; }
+    .seguros-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+    .seguro-card { background: var(--light); border-radius: var(--radius); padding: 32px 26px; border: 1px solid rgba(0,0,0,0.06); transition: var(--transition); cursor: pointer; position: relative; overflow: hidden; }
+    .seguro-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: transparent; }
+    .seguro-card::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); opacity: 0; background: linear-gradient(135deg, rgba(91,207,114,0.05), rgba(232,115,90,0.05)); transition: var(--transition); }
+    .seguro-card:hover::after { opacity: 1; }
+    .seguro-icon { width: 60px; height: 60px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 20px; }
+    .seguro-card:nth-child(1) .seguro-icon { background: linear-gradient(135deg, rgba(91,207,114,0.2), rgba(249,199,52,0.2)); }
+    .seguro-card:nth-child(2) .seguro-icon { background: linear-gradient(135deg, rgba(249,199,52,0.2), rgba(240,128,48,0.2)); }
+    .seguro-card:nth-child(3) .seguro-icon { background: linear-gradient(135deg, rgba(240,128,48,0.2), rgba(232,115,90,0.2)); }
+    .seguro-card:nth-child(4) .seguro-icon { background: linear-gradient(135deg, rgba(91,207,114,0.2), rgba(240,128,48,0.2)); }
+    .seguro-card:nth-child(5) .seguro-icon { background: linear-gradient(135deg, rgba(232,115,90,0.2), rgba(249,199,52,0.2)); }
+    .seguro-card h3 { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
+    .seguro-card ul { list-style: none; }
+    .seguro-card ul li { font-size: 13px; color: var(--gray); padding: 5px 0; display: flex; align-items: center; gap: 8px; }
+    .seguro-card ul li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: linear-gradient(135deg, var(--orange), var(--coral)); flex-shrink: 0; }
+
+    /* ===================== SEGURADORAS ===================== */
+    #seguradoras { background: var(--light); }
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 40px 0 36px; border-bottom: 2px solid rgba(0,0,0,0.08); padding-bottom: 0; }
+    .tab-btn { padding: 12px 24px; border-radius: 12px 12px 0 0; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; border: none; cursor: pointer; background: transparent; color: var(--gray); transition: var(--transition); position: relative; bottom: -2px; border-bottom: 2px solid transparent; }
+    .tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); background: white; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; }
+    .insurer-card { background: white; border-radius: 14px; padding: 20px 14px; display: flex; flex-direction: column; align-items: center; gap: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: var(--transition); border: 1px solid rgba(0,0,0,0.05); }
+    .insurer-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.10); }
+    .insurer-logo { width: 100px; height: 52px; display: flex; align-items: center; justify-content: center; }
+    .insurer-logo img { max-width: 100%; max-height: 52px; object-fit: contain; }
+    .insurer-name-fallback { font-size: 12px; font-weight: 700; text-align: center; color: var(--dark); background: linear-gradient(135deg, rgba(240,128,48,0.08), rgba(232,115,90,0.08)); padding: 10px 8px; border-radius: 8px; width: 100%; line-height: 1.3; }
+    .insurer-label { font-size: 11px; font-weight: 600; color: var(--gray); text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* ===================== FORMULÁRIO COTAÇÃO ===================== */
+    #solicitar { background: white; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 56px; }
+    .form-intro p { font-size: 15px; color: var(--gray); line-height: 1.8; margin-bottom: 20px; }
+    .form-contact-alt { display: flex; flex-direction: column; gap: 14px; }
+    .form-alt-item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--gray); }
+    .form-alt-item a { color: var(--orange); font-weight: 600; }
+    .form-alt-item a:hover { text-decoration: underline; }
+    .form-alt-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, rgba(240,128,48,0.12), rgba(232,115,90,0.12)); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .quote-form { background: var(--light); border-radius: var(--radius); padding: 40px 36px; box-shadow: var(--shadow); }
+    .quote-form h3 { font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 28px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea { width: 100%; padding: 12px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; color: var(--dark); background: white; transition: var(--transition); outline: none; }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(240,128,48,0.12); }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-group select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a5a72' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+    .btn-submit { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--orange), var(--coral)); color: white; border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: var(--transition); margin-top: 8px; }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,115,90,0.4); }
+    .form-success { display: none; text-align: center; padding: 32px 20px; }
+    .form-success .success-icon { font-size: 52px; margin-bottom: 16px; }
+    .form-success h4 { font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .form-success p { font-size: 14px; color: var(--gray); }
+
+    /* ===================== CTA ===================== */
+    #cotacao { background: linear-gradient(135deg, #1C1C2E 0%, #2d1a3d 40%, #3a1a1a 100%); position: relative; overflow: hidden; text-align: center; }
+    #cotacao .orb-1 { opacity: 0.2; }
+    #cotacao .orb-2 { opacity: 0.2; }
+    .cta-content { position: relative; z-index: 2; }
+    .cta-content h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 800; color: white; margin-bottom: 20px; line-height: 1.2; }
+    .cta-content p { font-size: 18px; color: rgba(255,255,255,0.75); margin-bottom: 40px; max-width: 580px; margin-left: auto; margin-right: auto; }
+    .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ===================== CONTATO ===================== */
+    #contato { background: var(--light); }
+    .contato-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: start; margin-top: 56px; }
+    .contato-info { display: flex; flex-direction: column; gap: 28px; }
+    .contato-item { display: flex; gap: 16px; align-items: flex-start; }
+    .contato-icon { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, rgba(240,128,48,0.12), rgba(232,115,90,0.12)); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .contato-item h4 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); margin-bottom: 4px; }
+    .contato-item p, .contato-item a { font-size: 15px; color: var(--gray); line-height: 1.6; }
+    .contato-item a:hover { color: var(--orange); }
+    .social-links { display: flex; gap: 12px; margin-top: 8px; }
+    .social-btn { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: var(--transition); font-size: 20px; }
+    .social-btn.instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+    .social-btn.linkedin { background: #0077B5; color: white; }
+    .social-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    .map-container { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+    .map-container iframe { width: 100%; height: 380px; border: none; display: block; }
+
+    /* ===================== FOOTER ===================== */
+    footer { background: var(--dark); padding: 60px 0 30px; }
+    .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand .logo-text { -webkit-text-fill-color: white; background: none; color: white; font-size: 24px; }
+    .footer-brand p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-top: 14px; max-width: 300px; }
+    .footer-col h4 { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .footer-col a, .footer-col p { display: block; font-size: 14px; color: rgba(255,255,255,0.55); margin-bottom: 10px; transition: var(--transition); }
+    .footer-col a:hover { color: var(--orange); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.4); }
+    .footer-social { display: flex; gap: 10px; }
+    .footer-social a { width: 36px; height: 36px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.6); font-size: 16px; transition: var(--transition); }
+    .footer-social a:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ===================== WHATSAPP FLOAT ===================== */
+    .whatsapp-float { position: fixed; bottom: 28px; right: 28px; z-index: 998; width: 58px; height: 58px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(37,211,102,0.5); transition: var(--transition); animation: waPulse 3s ease-in-out infinite; }
+    .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 10px 32px rgba(37,211,102,0.6); animation: none; }
+    @keyframes waPulse { 0%,100% { box-shadow: 0 6px 24px rgba(37,211,102,0.5); } 50% { box-shadow: 0 6px 24px rgba(37,211,102,0.5), 0 0 0 12px rgba(37,211,102,0.12); } }
+    .whatsapp-float svg { width: 30px; height: 30px; fill: white; }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .header-cta .btn { display: none; }
+      .hamburger { display: flex; }
+      #hero .container { flex-direction: column; gap: 40px; }
+      .hero-visual { display: none; }
+      .sobre-grid { grid-template-columns: 1fr; gap: 40px; }
+      .mvv-grid { grid-template-columns: 1fr; }
+      .seguros-grid { grid-template-columns: repeat(2, 1fr); }
+      .team-grid { grid-template-columns: 1fr; max-width: 360px; }
+      .contato-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-top .footer-brand { grid-column: 1 / -1; }
+    }
+    @media (max-width: 580px) {
+      .seguros-grid { grid-template-columns: 1fr; }
+      .stats-card { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .tab-btn { font-size: 12px; padding: 10px 14px; }
+      .quote-form { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===================== WHATSAPP FLOAT ===================== -->
+<a href="https://wa.me/5571981214018?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20cota%C3%A7%C3%A3o%20de%20seguro." target="_blank" class="whatsapp-float" aria-label="Fale conosco no WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ===================== MOBILE MENU ===================== -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" id="closeMenu">&#x2715;</button>
+  <a href="#sobre" onclick="closeMobile()">Sobre</a>
+  <a href="#mvv" onclick="closeMobile()">Missão & Valores</a>
+  <a href="#equipe" onclick="closeMobile()">Equipe</a>
+  <a href="#seguros" onclick="closeMobile()">Seguros</a>
+  <a href="#seguradoras" onclick="closeMobile()">Seguradoras</a>
+  <a href="#solicitar" onclick="closeMobile()">Cotação</a>
+  <a href="#contato" onclick="closeMobile()">Contato</a>
+  <a href="https://wa.me/5571981214018?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20cota%C3%A7%C3%A3o%20de%20seguro." target="_blank" class="btn btn-primary" style="margin-top:8px">Faça uma Cotação</a>
+</div>
+
+<!-- ===================== HEADER ===================== -->
+<header id="header">
+  <div class="container">
+    <a href="#" class="logo">
+      <div class="logo-icon-clip">
+        <img src="logo.png" alt="">
+      </div>
+      <div class="logo-text-group">
+        <span class="logo-title">Apoli<span class="logo-zz">zz</span>a</span>
+        <span class="logo-subtitle">Mais que seguros, um elo de cuidados</span>
+      </div>
+    </a>
+    <nav>
+      <a href="#sobre">Sobre</a>
+      <a href="#mvv">Missão & Valores</a>
+      <a href="#equipe">Equipe</a>
+      <a href="#seguros">Seguros</a>
+      <a href="#seguradoras">Seguradoras</a>
+      <a href="#solicitar">Cotação</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <div class="header-cta">
+      <a href="https://wa.me/5571981214018?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20cota%C3%A7%C3%A3o%20de%20seguro." target="_blank" class="btn btn-primary">Faça uma Cotação</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="dot"></div>
+        <span>Corretora de Seguros com +10 anos de experiência</span>
+      </div>
+      <h1 class="hero-title">
+        Proteção com<br><span class="gradient-text">Propósito</span>
+      </h1>
+      <p class="hero-subtitle">
+        Consultoria humanizada para pessoas e empresas. Encontramos a solução certa para a sua segurança com atenção, agilidade e transparência.
+      </p>
+      <div class="hero-buttons">
+        <a href="https://wa.me/5571981214018?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20cota%C3%A7%C3%A3o%20de%20seguro." target="_blank" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Faça uma Cotação
+        </a>
+        <a href="#solicitar" class="btn btn-outline">Conheça nossos seguros</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOBRE ===================== -->
+<section id="sobre">
+  <div class="container">
+    <div class="sobre-grid">
+      <div class="sobre-text reveal">
+        <p class="section-label">Quem Somos</p>
+        <h2 class="section-title">A corretora que cuida <span>de verdade</span></h2>
+        <p>A <strong>Apolizza</strong> é uma corretora de seguros baiana que atua há mais de <strong>10 anos</strong> no mercado, oferecendo consultoria humanizada para pessoas físicas e jurídicas de todos os portes.</p>
+        <p>Nosso diferencial está na forma como nos relacionamos: analisamos as necessidades reais de cada cliente e indicamos as coberturas mais adequadas, com atenção, agilidade e total transparência.</p>
+        <p>Com presença em múltiplos ramos — de saúde e vida a grandes riscos e transportes —, somos parceiros de seguradoras líderes no Brasil, garantindo as melhores condições do mercado.</p>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="stats-card">
+          <div class="stat-item">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Anos de mercado</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">40+</div>
+            <div class="stat-label">Seguradoras parceiras</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Ramos de atuação</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Foco no cliente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MISSÃO VISÃO VALORES ===================== -->
+<section id="mvv">
+  <div class="container">
+    <div style="text-align:center">
+      <p class="section-label reveal">Nossa Essência</p>
+      <h2 class="section-title reveal reveal-delay-1">Missão, Visão e <span>Valores</span></h2>
+    </div>
+    <div class="mvv-grid">
+      <div class="mvv-card missao reveal reveal-delay-1">
+        <div class="mvv-icon">🎯</div>
+        <h3>Missão</h3>
+        <p>Informar, orientar e identificar soluções, oferecendo segurança a pessoas e empresas por meio de proteção personalizada, entregue com carinho, atenção e agilidade.</p>
+      </div>
+      <div class="mvv-card visao reveal reveal-delay-2">
+        <div class="mvv-icon">🚀</div>
+        <h3>Visão</h3>
+        <p>Crescer e consolidar-se como referência no setor de seguros no Brasil, demonstrando comprometimento e elevados padrões de qualidade no atendimento e nas soluções entregues.</p>
+      </div>
+      <div class="mvv-card valores reveal reveal-delay-3">
+        <div class="mvv-icon">💎</div>
+        <h3>Valores</h3>
+        <div class="valores-tags">
+          <span class="tag">Segurança</span>
+          <span class="tag">Acolhimento</span>
+          <span class="tag">Confiança</span>
+          <span class="tag">Sinergia</span>
+          <span class="tag">Transparência</span>
+          <span class="tag">Bem-estar</span>
+          <span class="tag">Eficiência</span>
+          <span class="tag">Criatividade</span>
+          <span class="tag">Inovação</span>
+          <span class="tag">Iniciativa</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EQUIPE ===================== -->
+<section id="equipe">
+  <div class="container">
+    <div style="text-align:center">
+      <p class="section-label reveal">Liderança</p>
+      <h2 class="section-title reveal reveal-delay-1">Nossa <span>Equipe</span></h2>
+      <p class="reveal reveal-delay-2" style="color:var(--gray);max-width:500px;margin:0 auto;font-size:15px;line-height:1.7">Conheça as profissionais que lideram a Apolizza com dedicação e expertise no mercado de seguros.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal reveal-delay-2">
+        <div class="team-photo">V</div>
+        <div class="team-name">Vanessa</div>
+        <div class="team-role">Diretora Comercial</div>
+        <p class="team-bio">Responsável pelas estratégias comerciais e pelo relacionamento com clientes e parceiros, garantindo as melhores soluções em seguros para cada perfil.</p>
+      </div>
+      <div class="team-card reveal reveal-delay-3">
+        <div class="team-photo">A</div>
+        <div class="team-name">Alana</div>
+        <div class="team-role">Diretora Administrativa</div>
+        <p class="team-bio">Responsável pela gestão operacional e administrativa da corretora, assegurando excelência nos processos internos e na entrega de valor aos clientes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SEGUROS ===================== -->
+<section id="seguros">
+  <div class="container">
+    <div style="text-align:center">
+      <p class="section-label reveal">O que oferecemos</p>
+      <h2 class="section-title reveal reveal-delay-1">Nossos <span>Seguros</span></h2>
+      <p class="reveal reveal-delay-2" style="color:var(--gray);max-width:560px;margin:0 auto;font-size:15px;line-height:1.7">Atuamos em cinco grandes ramos para garantir proteção completa para você, sua família e seu negócio.</p>
+    </div>
+    <div class="seguros-grid">
+      <div class="seguro-card reveal reveal-delay-1">
+        <div class="seguro-icon">❤️</div>
+        <h3>Benefícios</h3>
+        <ul>
+          <li>Plano de Saúde</li>
+          <li>Plano Odontológico</li>
+          <li>Seguro de Vida</li>
+          <li>Acidentes Pessoais</li>
+          <li>Seguro Pet</li>
+          <li>Previdência</li>
+        </ul>
+      </div>
+      <div class="seguro-card reveal reveal-delay-2">
+        <div class="seguro-icon">🏗️</div>
+        <h3>Grandes Riscos</h3>
+        <ul>
+          <li>Seguro Garantia</li>
+          <li>Riscos de Engenharia</li>
+          <li>Responsabilidade Civil</li>
+          <li>Seguro Agrícola</li>
+          <li>Cyber Seguro</li>
+        </ul>
+      </div>
+      <div class="seguro-card reveal reveal-delay-3">
+        <div class="seguro-icon">🏠</div>
+        <h3>Ramos Elementares</h3>
+        <ul>
+          <li>Seguro Residencial</li>
+          <li>Condomínio</li>
+          <li>Fiança Locatícia</li>
+          <li>Seguro Empresarial</li>
+        </ul>
+      </div>
+      <div class="seguro-card reveal reveal-delay-2">
+        <div class="seguro-icon">🚗</div>
+        <h3>Transportes</h3>
+        <ul>
+          <li>Seguro Viagem</li>
+          <li>Seguro Bike</li>
+          <li>Seguro Auto</li>
+          <li>Seguro Frota</li>
+          <li>Seguro de Carga</li>
+          <li>Seguro Marítimo</li>
+        </ul>
+      </div>
+      <div class="seguro-card reveal reveal-delay-3">
+        <div class="seguro-icon">🤝</div>
+        <h3>Consórcios</h3>
+        <ul>
+          <li>Consórcio Imobiliário</li>
+          <li>Consórcio Auto</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SEGURADORAS ===================== -->
+<section id="seguradoras">
+  <div class="container">
+    <div style="text-align:center">
+      <p class="section-label reveal">Nossos Parceiros</p>
+      <h2 class="section-title reveal reveal-delay-1">Seguradoras <span>Parceiras</span></h2>
+      <p class="reveal reveal-delay-2" style="color:var(--gray);max-width:560px;margin:0 auto;font-size:15px;line-height:1.7">Trabalhamos com as maiores e mais respeitadas seguradoras do Brasil para garantir as melhores coberturas e condições.</p>
+    </div>
+    <div class="tabs reveal">
+      <button class="tab-btn active" onclick="showTab('patrimonial', this)">Patrimonial / Auto</button>
+      <button class="tab-btn" onclick="showTab('saude', this)">Saúde / Dental</button>
+      <button class="tab-btn" onclick="showTab('vida', this)">Vida PF e PJ</button>
+    </div>
+    <div class="tab-panel active" id="tab-patrimonial">
+      <div class="insurer-card" data-logo="allianz.com.br" data-name="ALLIANZ"></div>
+      <div class="insurer-card" data-logo="portoseguro.com.br" data-name="PORTO SEGURO"></div>
+      <div class="insurer-card" data-logo="tokiomarine.com.br" data-name="TOKIO MARINE"></div>
+      <div class="insurer-card" data-logo="yelum.com.br" data-name="YELUM / LIBERTY"></div>
+      <div class="insurer-card" data-logo="azulseguros.com.br" data-name="AZUL SEGUROS"></div>
+      <div class="insurer-card" data-logo="hdi.com.br" data-name="HDI / SOMPO"></div>
+      <div class="insurer-card" data-logo="zurichseguros.com.br" data-name="ZURICH"></div>
+      <div class="insurer-card" data-logo="sulamerica.com.br" data-name="SUL AMÉRICA"></div>
+      <div class="insurer-card" data-logo="suhai.com.br" data-name="SUHAI"></div>
+      <div class="insurer-card" data-logo="bradescoseguros.com.br" data-name="BRADESCO SEGUROS"></div>
+      <div class="insurer-card" data-logo="chubb.com" data-name="CHUBB"></div>
+      <div class="insurer-card" data-logo="mapfre.com.br" data-name="MAPFRE"></div>
+      <div class="insurer-card" data-logo="mitsui-porto.com.br" data-name="MITSUI PORTO"></div>
+    </div>
+    <div class="tab-panel" id="tab-saude">
+      <div class="insurer-card" data-logo="sulamerica.com.br" data-name="SUL AMÉRICA"></div>
+      <div class="insurer-card" data-logo="cnu.com.br" data-name="CNU"></div>
+      <div class="insurer-card" data-logo="segurosunimed.com.br" data-name="SEGUROS UNIMED"></div>
+      <div class="insurer-card" data-logo="bluesaude.com.br" data-name="BLUE SAÚDE"></div>
+      <div class="insurer-card" data-logo="amil.com.br" data-name="AMIL"></div>
+      <div class="insurer-card" data-logo="atitudesaude.com.br" data-name="ATITUDE SAÚDE"></div>
+      <div class="insurer-card" data-logo="sbsaude.com.br" data-name="SB SAÚDE"></div>
+      <div class="insurer-card" data-logo="nordestesaude.com.br" data-name="NORDESTE SAÚDE"></div>
+      <div class="insurer-card" data-logo="brasilsaude.com.br" data-name="BRASIL SAÚDE"></div>
+      <div class="insurer-card" data-logo="selectsaude.com.br" data-name="SELECT"></div>
+      <div class="insurer-card" data-logo="hapvida.com.br" data-name="HAPVIDA"></div>
+      <div class="insurer-card" data-logo="sevdonto.com.br" data-name="SEVDONTO"></div>
+      <div class="insurer-card" data-logo="odontoprev.com.br" data-name="ODONTOPREV"></div>
+      <div class="insurer-card" data-logo="natuseg.com.br" data-name="NATUSEG"></div>
+      <div class="insurer-card" data-logo="e4solucoes.com.br" data-name="E4 SOLUÇÕES"></div>
+      <div class="insurer-card" data-logo="espacocorretor.com.br" data-name="ESPAÇO CORRETOR"></div>
+      <div class="insurer-card" data-logo="texasaffinity.com.br" data-name="TEXAS AFFINITY"></div>
+      <div class="insurer-card" data-logo="texascorretora.com.br" data-name="TEXAS CORRETORA"></div>
+      <div class="insurer-card" data-logo="solidus.com.br" data-name="SOLIDUS"></div>
+    </div>
+    <div class="tab-panel" id="tab-vida">
+      <div class="insurer-card" data-logo="prudential.com.br" data-name="PRUDENTIAL"></div>
+      <div class="insurer-card" data-logo="sulamerica.com.br" data-name="SUL AMÉRICA"></div>
+      <div class="insurer-card" data-logo="icatuseguros.com.br" data-name="ICATU SEGUROS"></div>
+      <div class="insurer-card" data-logo="mag.com.br" data-name="MAG / MONGERAL"></div>
+      <div class="insurer-card" data-logo="metlife.com.br" data-name="METLIFE"></div>
+      <div class="insurer-card" data-logo="portoseguro.com.br" data-name="PORTO SEGURO"></div>
+      <div class="insurer-card" data-logo="tokiomarine.com.br" data-name="TOKIO MARINE"></div>
+      <div class="insurer-card" data-logo="yelum.com.br" data-name="LIBERTY"></div>
+      <div class="insurer-card" data-logo="hdi.com.br" data-name="HDI"></div>
+      <div class="insurer-card" data-logo="bradescoseguros.com.br" data-name="BRADESCO"></div>
+      <div class="insurer-card" data-logo="allianz.com.br" data-name="ALLIANZ"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FORMULÁRIO DE COTAÇÃO ===================== -->
+<section id="solicitar">
+  <div class="container">
+    <p class="section-label reveal">Comece Agora</p>
+    <h2 class="section-title reveal reveal-delay-1">Solicite sua <span>Cotação</span></h2>
+    <div class="form-grid">
+
+      <div class="form-intro reveal reveal-delay-1">
+        <p>Preencha o formulário ao lado com seus dados e o ramo de seguro desejado. Nossa equipe entrará em contato para oferecer a melhor solução para você.</p>
+        <p>Você também pode nos chamar diretamente pelos canais abaixo — atendimento rápido e sem burocracia.</p>
+        <div class="form-contact-alt" style="margin-top:28px">
+          <div class="form-alt-item">
+            <div class="form-alt-icon">💬</div>
+            <span>WhatsApp: <a href="https://wa.me/5571981214018" target="_blank">(71) 98121-4018</a></span>
+          </div>
+          <div class="form-alt-item">
+            <div class="form-alt-icon">📞</div>
+            <span>Telefone: <a href="tel:+5571981213338">(71) 98121-3338</a></span>
+          </div>
+          <div class="form-alt-item">
+            <div class="form-alt-icon">✉️</div>
+            <span>E-mail: <a href="mailto:comercial@apolizza.com">comercial@apolizza.com</a></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-2">
+        <div class="quote-form">
+          <h3>Dados para cotação</h3>
+          <form id="quoteForm">
+            <div class="form-group">
+              <label for="nome">Nome completo *</label>
+              <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+            </div>
+            <div class="form-group">
+              <label for="telefone">Telefone / WhatsApp *</label>
+              <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+            </div>
+            <div class="form-group">
+              <label for="email_cliente">E-mail *</label>
+              <input type="email" id="email_cliente" name="email_cliente" placeholder="seu@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="ramo">Ramo de seguro *</label>
+              <select id="ramo" name="ramo" required>
+                <option value="">Selecione o ramo desejado</option>
+                <option value="Benefícios — Saúde / Dental / Vida / Acidentes Pessoais / Pet / Previdência">❤️ Benefícios (Saúde, Dental, Vida)</option>
+                <option value="Grandes Riscos — Garantia / Engenharia / Responsabilidade Civil / Agro / Cyber">🏗️ Grandes Riscos</option>
+                <option value="Ramos Elementares — Residencial / Condomínio / Fiança / Empresarial">🏠 Ramos Elementares</option>
+                <option value="Transportes — Viagem / Auto / Frota / Bike / Carga / Marítimo">🚗 Transportes</option>
+                <option value="Consórcios — Imobiliário / Auto">🤝 Consórcios</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="mensagem">Mensagem adicional</label>
+              <textarea id="mensagem" name="mensagem" placeholder="Descreva brevemente sua necessidade (opcional)..."></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Enviar Solicitação →</button>
+          </form>
+          <div class="form-success" id="formSuccess">
+            <div class="success-icon">✅</div>
+            <h4>Solicitação enviada!</h4>
+            <p>Seu cliente de e-mail foi aberto com os dados preenchidos. Em breve nossa equipe entrará em contato.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section id="cotacao">
+  <div class="hero-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+  <div class="container">
+    <div class="cta-content">
+      <p class="section-label" style="color:var(--yellow)">Pronto para se proteger?</p>
+      <h2>Fale agora com<br>uma especialista</h2>
+      <p>Atendimento rápido, personalizado e sem burocracia. Chame no WhatsApp ou ligue agora.</p>
+      <div class="cta-buttons">
+        <a href="https://wa.me/5571981214018?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20cota%C3%A7%C3%A3o%20de%20seguro." target="_blank" class="btn btn-whatsapp">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Chamar no WhatsApp
+        </a>
+        <a href="tel:+5571981213338" class="btn btn-outline">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.41 10.5 19.79 19.79 0 01.36 3.92 2 2 0 012.33 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Ligar agora
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTATO ===================== -->
+<section id="contato">
+  <div class="container">
+    <p class="section-label reveal">Fale Conosco</p>
+    <h2 class="section-title reveal reveal-delay-1">Entre em <span>Contato</span></h2>
+    <div class="contato-grid">
+      <div class="contato-info">
+        <div class="contato-item reveal reveal-delay-1">
+          <div class="contato-icon">📍</div>
+          <div>
+            <h4>Endereço</h4>
+            <p>Av. Luís Viana Filho, 13.223 — São Cristóvão<br>Edifício Hangar Business Park, Hangar 6, Sala 211<br>Salvador/BA — CEP: 41.500-300</p>
+          </div>
+        </div>
+        <div class="contato-item reveal reveal-delay-2">
+          <div class="contato-icon">📞</div>
+          <div>
+            <h4>Telefones</h4>
+            <a href="tel:+5571981213338">(71) 98121-3338</a>
+            <a href="tel:+5571981214018">(71) 98121-4018</a>
+          </div>
+        </div>
+        <div class="contato-item reveal reveal-delay-3">
+          <div class="contato-icon">💬</div>
+          <div>
+            <h4>WhatsApp — Cotações</h4>
+            <a href="https://wa.me/5571981214018?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20cota%C3%A7%C3%A3o." target="_blank">(71) 98121-4018</a>
+          </div>
+        </div>
+        <div class="contato-item reveal reveal-delay-3">
+          <div class="contato-icon">✉️</div>
+          <div>
+            <h4>E-mail</h4>
+            <a href="mailto:comercial@apolizza.com">comercial@apolizza.com</a>
+          </div>
+        </div>
+        <div class="contato-item reveal reveal-delay-4">
+          <div class="contato-icon">🌐</div>
+          <div>
+            <h4>Redes Sociais</h4>
+            <div class="social-links">
+              <a href="https://www.instagram.com/apolizza?igsh=ZjVreXJpNWpvMG80" target="_blank" class="social-btn instagram" aria-label="Instagram">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </a>
+              <a href="https://www.linkedin.com/in/apolliza-corretora-de-seguros-1660013b7" target="_blank" class="social-btn linkedin" aria-label="LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-container reveal reveal-delay-2">
+        <iframe
+          src="https://maps.google.com/maps?q=Av.+Lu%C3%ADs+Viana+Filho%2C+13223%2C+S%C3%A3o+Crist%C3%B3v%C3%A3o%2C+Salvador%2C+BA%2C+41500-300&output=embed"
+          allowfullscreen
+          loading="lazy"
+          title="Localização Apolizza — Hangar Business Park, Salvador/BA"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo" style="background:white;padding:12px 16px;border-radius:12px;display:inline-block;">
+          <img src="logo.png" alt="Apolizza" style="height:70px;width:auto;object-fit:contain;display:block;">
+        </div>
+        <p>Corretora de seguros com consultoria humanizada para proteger o que é mais importante para você e sua empresa.</p>
+        <p style="margin-top:10px;font-size:12px;color:rgba(255,255,255,0.35)">CNPJ nº 15.728.440/0001-37</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="#sobre">Sobre nós</a>
+        <a href="#mvv">Missão & Valores</a>
+        <a href="#equipe">Nossa Equipe</a>
+        <a href="#seguros">Nossos Seguros</a>
+        <a href="#seguradoras">Seguradoras</a>
+        <a href="#solicitar">Solicitar Cotação</a>
+        <a href="#contato">Contato</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <a href="tel:+5571981213338">(71) 98121-3338</a>
+        <a href="tel:+5571981214018">(71) 98121-4018</a>
+        <a href="mailto:comercial@apolizza.com">comercial@apolizza.com</a>
+        <a href="https://wa.me/5571981214018" target="_blank">WhatsApp Cotações</a>
+        <p style="margin-top:8px;font-size:12px">Av. Luís Viana Filho, 13.223<br>Hangar Business Park, Hangar 6<br>Sala 211 — Salvador/BA</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Apolizza Corretora de Seguros. CNPJ nº 15.728.440/0001-37. Todos os direitos reservados.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/apolizza?igsh=ZjVreXJpNWpvMG80" target="_blank" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/apolliza-corretora-de-seguros-1660013b7" target="_blank" aria-label="LinkedIn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+  // ---- Header scroll ----
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ---- Mobile menu ----
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeMenu  = document.getElementById('closeMenu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+  closeMenu.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  function closeMobile() { mobileMenu.classList.remove('open'); }
+
+  // ---- Scroll reveal ----
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ---- Tabs ----
+  function showTab(name, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+    renderTabLogos(name);
+  }
+
+  // ---- Insurer logos com fallback ----
+  function renderInsurerCard(card) {
+    if (card.dataset.rendered) return;
+    card.dataset.rendered = '1';
+    const logo = card.dataset.logo;
+    const name = card.dataset.name;
+
+    const logoDiv = document.createElement('div');
+    logoDiv.className = 'insurer-logo';
+
+    const img = document.createElement('img');
+    img.alt = name;
+    img.loading = 'lazy';
+
+    img.onload = () => { logoDiv.appendChild(img); };
+    img.onerror = () => {
+      const fallback = document.createElement('div');
+      fallback.className = 'insurer-name-fallback';
+      fallback.textContent = name;
+      logoDiv.appendChild(fallback);
+    };
+    img.src = 'https://logo.clearbit.com/' + logo + '?size=120';
+
+    const label = document.createElement('div');
+    label.className = 'insurer-label';
+    label.textContent = name;
+
+    card.appendChild(logoDiv);
+    card.appendChild(label);
+  }
+
+  function renderTabLogos(tabName) {
+    const panel = document.getElementById('tab-' + tabName);
+    if (!panel) return;
+    panel.querySelectorAll('.insurer-card').forEach(renderInsurerCard);
+  }
+
+  window.addEventListener('load', () => renderTabLogos('patrimonial'));
+
+  // ---- Counter animation ----
+  function animateCounter(el, target, suffix) {
+    let start = 0;
+    const step = (ts) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / 1800, 1);
+      el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const statsObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        statsObs.unobserve(e.target);
+        const nums = e.target.querySelectorAll('.stat-number');
+        [10, 40, 5, 100].forEach((t, i) => animateCounter(nums[i], t, ['+', '+', '', '%'][i]));
+      }
+    });
+  }, { threshold: 0.4 });
+
+  const statsCard = document.querySelector('.stats-card');
+  if (statsCard) statsObs.observe(statsCard);
+
+  // ---- Formulário de cotação ----
+  document.getElementById('quoteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nome      = this.nome.value.trim();
+    const telefone  = this.telefone.value.trim();
+    const emailCli  = this.email_cliente.value.trim();
+    const ramo      = this.ramo.value;
+    const mensagem  = this.mensagem.value.trim() || '—';
+
+    const subject = encodeURIComponent('Solicitação de Cotação — ' + ramo.split('—')[0].trim());
+    const body = encodeURIComponent(
+      'Nome: ' + nome + '\n' +
+      'Telefone: ' + telefone + '\n' +
+      'E-mail: ' + emailCli + '\n' +
+      'Ramo de Seguro: ' + ramo + '\n\n' +
+      'Mensagem:\n' + mensagem
+    );
+
+    window.location.href = 'mailto:comercial@apolizza.com?subject=' + subject + '&body=' + body;
+
+    // Mostra confirmação
+    this.style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
