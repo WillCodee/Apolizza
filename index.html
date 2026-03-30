@@ -143,6 +143,19 @@
     .team-role { font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
     .team-bio { font-size: 14px; color: var(--gray); line-height: 1.7; }
 
+    /* ===================== BENEFÍCIOS ===================== */
+    #beneficios { background: linear-gradient(135deg, #fff8f5 0%, #f0faf2 100%); padding: 100px 0; overflow: hidden; }
+    .beneficios-inner { display: grid; grid-template-columns: 340px 1fr; gap: 64px; align-items: center; }
+    .beneficios-lizza { position: relative; text-align: center; }
+    .beneficios-lizza img { width: 100%; max-width: 320px; border-radius: 24px; object-fit: cover; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.12)); }
+    .beneficios-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 36px; }
+    .beneficio-item { display: flex; align-items: flex-start; gap: 16px; background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); transition: var(--transition); }
+    .beneficio-item:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+    .beneficio-icon { flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--green), var(--yellow)); display: flex; align-items: center; justify-content: center; }
+    .beneficio-icon svg { width: 22px; height: 22px; stroke: white; }
+    .beneficio-text h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 6px; line-height: 1.3; }
+    .beneficio-text p { font-size: 13px; color: var(--gray); line-height: 1.6; margin: 0; }
+
     /* ===================== SEGUROS ===================== */
     #seguros { background: white; }
     .seguros-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
@@ -260,6 +273,10 @@
       .mvv-grid { grid-template-columns: 1fr; }
       .seguros-grid { grid-template-columns: repeat(2, 1fr); }
       .team-grid { grid-template-columns: 1fr; max-width: 360px; }
+      .beneficios-inner { grid-template-columns: 1fr; gap: 40px; }
+      .beneficios-lizza { display: flex; justify-content: center; }
+      .beneficios-lizza img { max-width: 240px; }
+      .beneficios-grid { grid-template-columns: 1fr; }
       .contato-grid { grid-template-columns: 1fr; }
       .form-grid { grid-template-columns: 1fr; }
       .footer-top { grid-template-columns: 1fr 1fr; }
@@ -288,6 +305,7 @@
   <a href="#sobre" onclick="closeMobile()">Sobre</a>
   <a href="#mvv" onclick="closeMobile()">Missão & Valores</a>
   <a href="#equipe" onclick="closeMobile()">Equipe</a>
+  <a href="#beneficios" onclick="closeMobile()">Benefícios</a>
   <a href="#seguros" onclick="closeMobile()">Seguros</a>
   <a href="#seguradoras" onclick="closeMobile()">Seguradoras</a>
   <a href="#solicitar" onclick="closeMobile()">Cotação</a>
@@ -311,6 +329,7 @@
       <a href="#sobre">Sobre</a>
       <a href="#mvv">Missão & Valores</a>
       <a href="#equipe">Equipe</a>
+      <a href="#beneficios">Benefícios</a>
       <a href="#seguros">Seguros</a>
       <a href="#seguradoras">Seguradoras</a>
       <a href="#solicitar">Cotação</a>
@@ -452,6 +471,77 @@
         <div class="team-name">Alana</div>
         <div class="team-role">Diretora Administrativa</div>
         <p class="team-bio">Responsável pela gestão operacional e administrativa da corretora e pelo relacionamento com os clientes, assegurando excelência nos processos internos e na entrega de valor aos clientes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BENEFÍCIOS ===================== -->
+<section id="beneficios">
+  <div class="container">
+    <div class="beneficios-inner">
+      <div class="beneficios-lizza reveal">
+        <img src="lizza.jpeg" alt="Lizza – Consultora da Apolizza">
+      </div>
+      <div class="beneficios-content">
+        <p class="section-label reveal">Por que escolher a Apolizza?</p>
+        <h2 class="section-title reveal reveal-delay-1">Benefícios de fechar <span>com a gente</span></h2>
+        <div class="beneficios-grid">
+          <div class="beneficio-item reveal reveal-delay-1">
+            <div class="beneficio-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            </div>
+            <div class="beneficio-text">
+              <h4>Implantação Completa</h4>
+              <p>Cuidamos de todo o processo de implantação do seu seguro, do início ao fim, sem burocracia e com total suporte.</p>
+            </div>
+          </div>
+          <div class="beneficio-item reveal reveal-delay-2">
+            <div class="beneficio-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </div>
+            <div class="beneficio-text">
+              <h4>Aplicativo da Corretora</h4>
+              <p>Acesse apólices, sinistros e suporte diretamente pelo aplicativo Apolizza, com praticidade na palma da mão.</p>
+            </div>
+          </div>
+          <div class="beneficio-item reveal reveal-delay-3">
+            <div class="beneficio-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            </div>
+            <div class="beneficio-text">
+              <h4>Atendimento Ágil e Humanizado</h4>
+              <p>Equipe dedicada para responder com rapidez e cuidado, tratando cada cliente de forma individualizada.</p>
+            </div>
+          </div>
+          <div class="beneficio-item reveal reveal-delay-1">
+            <div class="beneficio-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div class="beneficio-text">
+              <h4>Consultoria Personalizada</h4>
+              <p>Analisamos o seu perfil e indicamos as coberturas ideais entre mais de 40 seguradoras parceiras.</p>
+            </div>
+          </div>
+          <div class="beneficio-item reveal reveal-delay-2">
+            <div class="beneficio-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="beneficio-text">
+              <h4>Gestão de Sinistros</h4>
+              <p>Acompanhamos todo o processo de sinistro ao seu lado, garantindo agilidade na resolução e menor impacto para você.</p>
+            </div>
+          </div>
+          <div class="beneficio-item reveal reveal-delay-3">
+            <div class="beneficio-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="beneficio-text">
+              <h4>Renovação Sem Surpresas</h4>
+              <p>Monitoramos os vencimentos das suas apólices e realizamos as renovações com antecedência, sem interruções na cobertura.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
