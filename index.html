@@ -898,6 +898,42 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+  // ---- Logo mapping ----
+  const logoMap = {
+    'ALLIANZ': 'logo_allianz.png',
+    'PORTO SEGURO': 'logo_porto.png',
+    'TOKIO MARINE': 'logo_tokio.png',
+    'YELUM / LIBERTY': 'logo_yellum_liverty.png',
+    'AZUL SEGUROS': 'logo_azul.png',
+    'HDI / SOMPO': 'logo_hdi_sompo.png',
+    'ZURICH': 'logo_zurich.png',
+    'SUL AMÉRICA': 'logo_sulamerica.png',
+    'SUHAI': 'logo_suhai.png',
+    'BRADESCO SEGUROS': 'logo_bradesco.png',
+    'CHUBB': 'logo_chubb.png',
+    'MAPFRE': 'logo_mapfre.png',
+    'MITSUI PORTO': 'logo mitsui.png',
+    'CNU': 'imagem_cnu.jpg',
+    'SEGUROS UNIMED': 'logo_unimed.png',
+    'AMIL': 'logo_amil.png',
+    'SB SAÚDE': 'logo_sb.png',
+    'NORDESTE SAÚDE': 'logo_nordeste.png',
+    'PROMÉDICA': 'logo_promedica.png',
+    'NEOLÍDER': 'logo_neolider.png',
+    'ÚNICA SAÚDE': 'logo_unica_saude.png',
+    'SANTA SAÚDE': 'logo_santa_saude.png',
+    'CLINI': 'klini.png',
+    'PRUDENTIAL': 'logo_prudential.png',
+    'ICATU SEGUROS': 'logo_icatu.png',
+    'MAG / MONGERAL': 'logo_mag.png',
+    'METLIFE': 'logo_metlife.png',
+    'HDI': 'logo_HDI.png',
+    'BRADESCO': 'logo_bradesco.png',
+    'LIBERTY': 'logo_liberty.png',
+    'MBM': 'logo_mbm.png',
+    'CAPEMISA': 'logo_capemisa.png'
+  };
+
   // ---- Tabs ----
   function showTab(name, btn) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -928,7 +964,9 @@
       fallback.textContent = name;
       logoDiv.appendChild(fallback);
     };
-    img.src = 'https://logo.clearbit.com/' + logo + '?size=120';
+
+    const localLogo = logoMap[name];
+    img.src = localLogo ? localLogo : 'https://logo.clearbit.com/' + logo + '?size=120';
 
     const label = document.createElement('div');
     label.className = 'insurer-label';
