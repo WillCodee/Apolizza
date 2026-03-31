@@ -957,7 +957,11 @@
     img.alt = name;
     img.loading = 'lazy';
 
-    img.onload = () => { logoDiv.appendChild(img); };
+    let imageLoaded = false;
+    img.onload = () => {
+      imageLoaded = true;
+      logoDiv.appendChild(img);
+    };
     img.onerror = () => {
       const fallback = document.createElement('div');
       fallback.className = 'insurer-name-fallback';
@@ -967,6 +971,11 @@
 
     const localLogo = logoMap[name];
     img.src = localLogo ? localLogo : 'https://logo.clearbit.com/' + logo + '?size=120';
+
+    // Se for logo local, adiciona imediatamente
+    if (localLogo && !imageLoaded) {
+      logoDiv.appendChild(img);
+    }
 
     const label = document.createElement('div');
     label.className = 'insurer-label';
