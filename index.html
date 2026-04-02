@@ -74,29 +74,30 @@
     header:not(.scrolled) nav a { color: white; }
     header:not(.scrolled) .logo-text { background: none; -webkit-text-fill-color: white; }
     .header-cta { display: flex; align-items: center; gap: 12px; }
-    .menu-toggle { display: none; }
-    .menu-btn { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; z-index: 1001; position: relative; width: 40px; height: 40px; }
-    .menu-btn span { width: 24px; height: 2px; border-radius: 2px; transition: all 0.3s ease; display: block; }
-    header:not(.scrolled) .menu-btn span { background: white; }
-    header.scrolled .menu-btn span { background: var(--dark); }
-    .mobile-menu { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--dark); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 36px; transform: translateX(-100%); transition: transform 0.3s ease; }
-    #menu-toggle:checked ~ .mobile-menu { transform: translateX(0); }
-    .mobile-menu a { font-size: 22px; font-weight: 600; color: white; text-decoration: none; }
-    #menu-toggle:checked ~ .menu-btn span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-    #menu-toggle:checked ~ .menu-btn span:nth-child(2) { opacity: 0; }
-    #menu-toggle:checked ~ .menu-btn span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; z-index: 1001; position: relative; width: 40px; height: 40px; }
+    .hamburger span { width: 24px; height: 2px; border-radius: 2px; transition: all 0.3s ease; display: block; }
+    header:not(.scrolled) .hamburger span { background: white; }
+    header.scrolled .hamburger span { background: var(--dark); }
+    .mobile-menu { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--dark); z-index: 1100; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; transform: translateX(-100%); transition: transform 0.3s ease; }
+    .mobile-menu.open { transform: translateX(0); }
+    .mobile-menu a { font-size: 22px; font-weight: 600; color: white; }
+    .mobile-menu .close-btn { position: absolute; top: 24px; right: 24px; background: none; border: none; color: white; font-size: 32px; cursor: pointer; display: flex; flex-direction: column; gap: 5px; width: 48px; height: 48px; padding: 8px; z-index: 1101; }
+    .mobile-menu .close-btn span { width: 24px; height: 2px; background: white; border-radius: 2px; display: block; }
+    .mobile-menu .close-btn span:nth-child(1) { transform: rotate(45deg) translate(10px, 10px); }
+    .mobile-menu .close-btn span:nth-child(2) { opacity: 0; }
+    .mobile-menu .close-btn span:nth-child(3) { transform: rotate(-45deg) translate(7px, -8px); }
 
     /* ===================== HERO ===================== */
     #hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 100px 0 60px; }
-    .hero-bg { position: absolute; inset: 0; background: url('https://images.pexels.com/photos/1128318/pexels-photo-1128318.jpeg?auto=compress&cs=tinysrgb&w=1600&q=80') no-repeat; background-size: cover; background-position: center 50%; }
+    .hero-bg { position: absolute; inset: 0; background: url('https://images.pexels.com/photos/1128318/pexels-photo-1128318.jpeg?auto=compress&cs=tinysrgb&w=1600&q=80') no-repeat; background-size: cover; background-position: center 45%; }
     @media (max-width: 1024px) {
-      .hero-bg { background-position: center 48%; }
+      .hero-bg { background-position: center 42%; }
     }
     @media (max-width: 768px) {
-      .hero-bg { background-position: center 45%; }
+      .hero-bg { background-position: center 38%; }
     }
     @media (max-width: 480px) {
-      .hero-bg { background-position: center 42%; }
+      .hero-bg { background-position: center 35%; }
     }
     .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(20,18,36,0.82) 0%, rgba(38,22,50,0.72) 40%, rgba(50,22,22,0.65) 70%, rgba(20,18,36,0.80) 100%); }
     .hero-orbs { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
@@ -312,15 +313,20 @@
 </a>
 
 <!-- ===================== MOBILE MENU ===================== -->
-<nav class="mobile-menu">
-  <a href="#sobre">Sobre</a>
-  <a href="#mvv">Missão & Valores</a>
-  <a href="#equipe">Equipe</a>
-  <a href="#beneficios">Benefícios</a>
-  <a href="#seguros">Seguros</a>
-  <a href="#contato">Contato</a>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" id="closeMenu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <a href="#sobre" onclick="closeMobile()">Sobre</a>
+  <a href="#mvv" onclick="closeMobile()">Missão & Valores</a>
+  <a href="#equipe" onclick="closeMobile()">Equipe</a>
+  <a href="#beneficios" onclick="closeMobile()">Benefícios</a>
+  <a href="#seguros" onclick="closeMobile()">Seguros</a>
+  <a href="#contato" onclick="closeMobile()">Contato</a>
   <a href="#solicitar" class="btn btn-primary" style="margin-top:8px">Faça uma Cotação</a>
-</nav>
+</div>
 
 <!-- ===================== HEADER ===================== -->
 <header id="header">
@@ -344,10 +350,9 @@
     </nav>
     <div class="header-cta">
       <a href="#solicitar" class="btn btn-primary">Faça uma Cotação</a>
-      <input type="checkbox" id="menu-toggle" class="menu-toggle">
-      <label for="menu-toggle" class="menu-btn" aria-label="Menu">
+      <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
-      </label>
+      </button>
     </div>
   </div>
 </header>
@@ -897,12 +902,28 @@
   });
 
   // ---- Mobile menu ----
-  // Close mobile menu when clicking on a link
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeMenu = document.getElementById('closeMenu');
+
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.add('open');
+  });
+
+  closeMenu.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+  });
+
+  // Close menu when clicking on a link
   document.querySelectorAll('.mobile-menu a').forEach(link => {
     link.addEventListener('click', () => {
-      document.getElementById('menu-toggle').checked = false;
+      mobileMenu.classList.remove('open');
     });
   });
+
+  function closeMobile() {
+    mobileMenu.classList.remove('open');
+  }
 
   // ---- Scroll reveal ----
   const observer = new IntersectionObserver((entries) => {
