@@ -74,23 +74,26 @@
     header:not(.scrolled) nav a { color: white; }
     header:not(.scrolled) .logo-text { background: none; -webkit-text-fill-color: white; }
     .header-cta { display: flex; align-items: center; gap: 12px; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
-    .hamburger span { width: 24px; height: 2px; border-radius: 2px; transition: var(--transition); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; z-index: 1001; position: relative; }
+    .hamburger span { width: 24px; height: 2px; border-radius: 2px; transition: var(--transition); display: block; }
     header:not(.scrolled) .hamburger span { background: white; }
     header.scrolled .hamburger span { background: var(--dark); }
-    .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--dark); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(10px, 10px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -8px); }
+    .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--dark); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
     .mobile-menu.open { display: flex; }
     .mobile-menu a { font-size: 22px; font-weight: 600; color: white; }
-    .mobile-menu .close-btn { position: absolute; top: 24px; right: 24px; background: none; border: none; color: white; font-size: 32px; cursor: pointer; }
+    .mobile-menu .close-btn { display: none; }
 
     /* ===================== HERO ===================== */
     #hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 100px 0 60px; }
-    .hero-bg { position: absolute; inset: 0; background: url('https://images.pexels.com/photos/1128318/pexels-photo-1128318.jpeg?auto=compress&cs=tinysrgb&w=1600&q=80') center center / cover no-repeat; background-position: center 30%; }
+    .hero-bg { position: absolute; inset: 0; background: url('https://images.pexels.com/photos/1128318/pexels-photo-1128318.jpeg?auto=compress&cs=tinysrgb&w=1600&q=80') center center / cover no-repeat; background-position: center 40%; }
     @media (max-width: 768px) {
-      .hero-bg { background-position: center 25%; }
+      .hero-bg { background-position: center 35%; }
     }
     @media (max-width: 480px) {
-      .hero-bg { background-position: center 20%; }
+      .hero-bg { background-position: center 30%; }
     }
     .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(20,18,36,0.82) 0%, rgba(38,22,50,0.72) 40%, rgba(50,22,22,0.65) 70%, rgba(20,18,36,0.80) 100%); }
     .hero-orbs { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
@@ -893,10 +896,14 @@
   // ---- Mobile menu ----
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
-  const closeMenu  = document.getElementById('closeMenu');
-  hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
-  closeMenu.addEventListener('click', () => mobileMenu.classList.remove('open'));
-  function closeMobile() { mobileMenu.classList.remove('open'); }
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.add('open');
+    hamburger.classList.add('active');
+  });
+  function closeMobile() {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('active');
+  }
 
   // ---- Scroll reveal ----
   const observer = new IntersectionObserver((entries) => {
