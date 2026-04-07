@@ -1043,7 +1043,7 @@
       if (e.isIntersecting) {
         statsObs.unobserve(e.target);
         const nums = e.target.querySelectorAll('.stat-number');
-        [10, 40, 5, 100].forEach((t, i) => animateCounter(nums[i], t, ['+', '+', '', '%'][i]));
+        [14, 40, 5, 100].forEach((t, i) => animateCounter(nums[i], t, ['+', '+', '', '%'][i]));
       }
     });
   }, { threshold: 0.4 });
