@@ -1057,31 +1057,41 @@
   const statsCard = document.querySelector('.stats-card');
   if (statsCard) statsObs.observe(statsCard);
 
-  // ---- Formulário de cotação ----
+  // ---- EmailJS - Formulario de cotacao ----
+  emailjs.init('nxt1gxcAXKuVNn2RQ');
+
   document.getElementById('quoteForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const nome      = this.nome.value.trim();
-    const telefone  = this.telefone.value.trim();
-    const emailCli  = this.email_cliente.value.trim();
-    const ramo      = this.ramo.value;
-    const mensagem  = this.mensagem.value.trim() || '—';
 
-    const subject = encodeURIComponent('Solicitação de Cotação — ' + ramo.split('—')[0].trim());
-    const body = encodeURIComponent(
-      'Nome: ' + nome + '\n' +
-      'Telefone: ' + telefone + '\n' +
-      'E-mail: ' + emailCli + '\n' +
-      'Ramo de Seguro: ' + ramo + '\n\n' +
-      'Mensagem:\n' + mensagem
-    );
+    const btn = this.querySelector('.btn-submit');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
 
-    window.location.href = 'mailto:relacionamento@apolizza.com?cc=vanessa.nogueira@apolizza.com&subject=' + subject + '&body=' + body;
+    const agora = new Date();
+    const dataHora = agora.toLocaleDateString('pt-BR', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
 
-    // Mostra confirmação
-    this.style.display = 'none';
-    document.getElementById('formSuccess').style.display = 'block';
+    const params = {
+      from_name: this.nome.value.trim(),
+      telefone:  this.telefone.value.trim(),
+      email:     this.email_cliente.value.trim(),
+      ramo:      this.ramo.value,
+      mensagem:  this.mensagem.value.trim() || 'Nenhuma mensagem adicional.',
+      data_hora: dataHora
+    };
+
+    emailjs.send('service_osmhqnn', 'template_b1pdjdn', params)
+      .then(() => {
+        this.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      })
+      .catch(() => {
+        btn.textContent = 'Enviar Solicitação →';
+        btn.disabled = false;
+        alert('Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.');
+      });
   });
-</script>
-
 </body>
 </html>
