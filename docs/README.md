@@ -102,8 +102,6 @@ O formulário captura:
 - Ramo de seguro desejado
 - Mensagem adicional
 
-Envia para: `gestao@apolizza.com` com cópia para `vanessa.nogueira@apolizza.com`
-
 ## 🔗 Links Úteis
 
 - **LinkedIn**: https://www.linkedin.com/in/apolliza-corretora-de-seguros-1660013b7
@@ -116,4 +114,4 @@ Envia para: `gestao@apolizza.com` com cópia para `vanessa.nogueira@apolizza.com
 
 ---
 
-Desenvolvido com ❤️ para Apolizza
+Desenvolvido para Apolizza corretora de seguros
