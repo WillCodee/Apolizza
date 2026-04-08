@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apolizza Corretora de Seguros</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
@@ -1058,7 +1058,6 @@
   if (statsCard) statsObs.observe(statsCard);
 
   // ---- EmailJS - Formulario de cotacao ----
-  emailjs.init('nxt1gxcAXKuVNn2RQ');
 
   document.getElementById('quoteForm').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -1082,7 +1081,7 @@
       data_hora: dataHora
     };
 
-    emailjs.send('service_osmhqnn', 'template_b1pdjdn', params)
+    if (typeof emailjs !== 'undefined') emailjs.send('service_osmhqnn', 'template_b1pdjdn', params)
       .then(() => {
         this.style.display = 'none';
         document.getElementById('formSuccess').style.display = 'block';
@@ -1093,5 +1092,8 @@
         alert('Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.');
       });
   });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init("nxt1gxcAXKuVNn2RQ");</script>
 </body>
 </html>
