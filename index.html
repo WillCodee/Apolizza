@@ -1072,13 +1072,17 @@
       hour: '2-digit', minute: '2-digit'
     });
 
+    const ramoCompleto = this.ramo.value;
+    const ramoAssunto = ramoCompleto.split(' —')[0].trim();
+
     const params = {
-      from_name: this.nome.value.trim(),
-      telefone:  this.telefone.value.trim(),
-      email:     this.email_cliente.value.trim(),
-      ramo:      this.ramo.value,
-      mensagem:  this.mensagem.value.trim() || 'Nenhuma mensagem adicional.',
-      data_hora: dataHora
+      from_name:    this.nome.value.trim(),
+      telefone:     this.telefone.value.trim(),
+      email:        this.email_cliente.value.trim(),
+      ramo:         ramoCompleto,
+      ramo_assunto: ramoAssunto,
+      mensagem:     this.mensagem.value.trim() || 'Nenhuma mensagem adicional.',
+      data_hora:    dataHora
     };
 
     if (typeof emailjs !== 'undefined') emailjs.send('service_osmhqnn', 'template_yavneyk', params)
