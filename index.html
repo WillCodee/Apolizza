@@ -1086,10 +1086,11 @@
         this.style.display = 'none';
         document.getElementById('formSuccess').style.display = 'block';
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error('EmailJS erro:', JSON.stringify(err));
         btn.textContent = 'Enviar Solicitação →';
         btn.disabled = false;
-        alert('Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.');
+        alert('Erro: ' + (err.text || err.message || JSON.stringify(err)));
       });
   });
 </script>
