@@ -55,7 +55,7 @@ O site é totalmente responsivo e funciona perfeitamente em:
 
 - **Email (Gestão)**: gestao@apolizza.com
 - **Email (Vanessa)**: vanessa.nogueira@apolizza.com
-- **WhatsApp Cotações**: +55 71 8119-3987
+- **WhatsApp Cotações**: +55 71 98119-3987
 - **Telefone**: (71) 98121-3338
 - **Endereço**: Av. Luís Viana Filho, 13.223 — Salvador/BA
 
