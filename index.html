@@ -286,6 +286,45 @@
     @keyframes waPulse { 0%,100% { box-shadow: 0 6px 24px rgba(37,211,102,0.5); } 50% { box-shadow: 0 6px 24px rgba(37,211,102,0.5), 0 0 0 12px rgba(37,211,102,0.12); } }
     .whatsapp-float svg { width: 30px; height: 30px; fill: white; }
 
+    /* ===================== CHAT DA LIZZA (18/11/2026) ===================== */
+    .lizza-launcher { position: fixed; bottom: 100px; right: 28px; z-index: 998; display: flex; align-items: center; gap: 10px; padding: 6px 18px 6px 6px; border: none; border-radius: 50px; background: linear-gradient(105deg, var(--orange), var(--coral)); color: #fff; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 6px 24px rgba(240,128,48,0.45); transition: var(--transition); }
+    .lizza-launcher:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(240,128,48,0.55); }
+    .lizza-launcher img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; }
+    .lizza-launcher[hidden], .lizza-chat[hidden], .lizza-rodape[hidden], .lizza-inicio[hidden] { display: none; }
+    .lizza-chat { position: fixed; bottom: 28px; right: 28px; z-index: 1001; width: 370px; max-width: calc(100vw - 32px); height: 560px; max-height: calc(100vh - 56px); display: flex; flex-direction: column; background: #fff; border-radius: 20px; box-shadow: 0 18px 60px rgba(28,28,46,0.28); overflow: hidden; font-family: 'Poppins', sans-serif; }
+    .lizza-topo { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: linear-gradient(105deg, var(--orange), var(--coral)); color: #fff; }
+    .lizza-topo img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; }
+    .lizza-topo strong { display: block; font-size: 16px; line-height: 1.2; }
+    .lizza-topo small { display: block; font-size: 12px; opacity: 0.9; }
+    .lizza-fechar { margin-left: auto; width: 32px; height: 32px; border: none; border-radius: 50%; background: rgba(255,255,255,0.2); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; }
+    .lizza-fechar:hover { background: rgba(255,255,255,0.32); }
+    .lizza-corpo { flex: 1; overflow-y: auto; padding: 16px; background: var(--light); }
+    .lizza-inicio p { font-size: 14px; color: var(--dark); margin-bottom: 14px; line-height: 1.5; }
+    .lizza-inicio label { display: block; font-size: 12px; font-weight: 600; color: var(--gray); margin-bottom: 10px; }
+    .lizza-inicio input { display: block; width: 100%; margin-top: 4px; padding: 10px 12px; border: 1px solid #e4dcd8; border-radius: 12px; font-family: inherit; font-size: 14px; background: #fff; }
+    .lizza-inicio input:focus, .lizza-rodape textarea:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px rgba(240,128,48,0.15); }
+    .lizza-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+    .lizza-botao { width: 100%; padding: 12px; border: none; border-radius: 50px; background: linear-gradient(105deg, var(--orange), var(--coral)); color: #fff; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .lizza-botao:disabled { opacity: 0.6; cursor: wait; }
+    .lizza-aviso { font-size: 11px !important; color: var(--gray) !important; text-align: center; margin: 10px 0 0 !important; }
+    .lizza-mensagens { display: flex; flex-direction: column; gap: 8px; }
+    .lizza-msg { max-width: 85%; padding: 10px 13px; border-radius: 16px; font-size: 14px; line-height: 1.45; word-wrap: break-word; white-space: normal; }
+    .lizza-msg.ela { align-self: flex-start; background: #fff; color: var(--dark); border-bottom-left-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .lizza-msg.eu { align-self: flex-end; background: var(--orange); color: #fff; border-bottom-right-radius: 4px; }
+    .lizza-msg a { color: inherit; text-decoration: underline; word-break: break-all; }
+    .lizza-msg.digitando { color: var(--gray); font-style: italic; }
+    .lizza-rodape { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid #f1e8e4; background: #fff; }
+    .lizza-rodape textarea { flex: 1; resize: none; max-height: 96px; padding: 10px 12px; border: 1px solid #e4dcd8; border-radius: 14px; font-family: inherit; font-size: 14px; }
+    .lizza-rodape button { width: 44px; border: none; border-radius: 50%; background: var(--orange); color: #fff; font-size: 18px; cursor: pointer; }
+    .lizza-rodape button:disabled { opacity: 0.5; cursor: wait; }
+    .lizza-whats { display: block; padding: 8px 12px 12px; text-align: center; font-size: 12px; color: #1b9e4b; background: #fff; text-decoration: none; }
+    .lizza-whats:hover { text-decoration: underline; }
+    @media (max-width: 600px) {
+      .lizza-launcher { bottom: 96px; right: 20px; padding: 4px; }
+      .lizza-launcher span { display: none; }
+      .lizza-chat { right: 16px; left: 16px; bottom: 16px; width: auto; max-width: none; height: calc(100vh - 32px); max-height: 640px; }
+    }
+
     /* ===================== RESPONSIVE ===================== */
     @media (max-width: 900px) {
       nav { display: none; }
@@ -319,6 +358,36 @@
 <body>
 
 <!-- ===================== WHATSAPP FLOAT ===================== -->
+<!-- Chat da Lizza no site (18/11/2026): nome e WhatsApp primeiro; a equipe vê em tickets no CRM. -->
+<button type="button" class="lizza-launcher" id="lizzaAbrir" aria-label="Conversar com a Lizza, consultora virtual da Apolizza">
+  <img src="assets/lizza.jpg" alt="" width="40" height="40">
+  <span>Fale com a Lizza</span>
+</button>
+<!-- div, e não section: o CSS do site dá espaço em cima e embaixo a toda <section>. -->
+<div class="lizza-chat" id="lizzaChat" role="dialog" aria-label="Chat com a Lizza" hidden>
+  <!-- div, e não header: o CSS do site deixa todo <header> fixo no alto da página. -->
+  <div class="lizza-topo">
+    <img src="assets/lizza.jpg" alt="" width="42" height="42">
+    <div><strong>Lizza</strong><small>Consultora virtual da Apolizza</small></div>
+    <button type="button" class="lizza-fechar" id="lizzaFechar" aria-label="Fechar o chat">×</button>
+  </div>
+  <div class="lizza-corpo" id="lizzaCorpo">
+    <form class="lizza-inicio" id="lizzaInicio">
+      <p>Olá! 😊 Para começar, me diga seu nome e seu WhatsApp — assim nossa equipe consegue falar com você se precisar.</p>
+      <label>Seu nome<input name="nome" autocomplete="name" maxlength="100" required></label>
+      <label>Seu WhatsApp<input name="whatsapp" type="tel" autocomplete="tel" placeholder="(71) 99999-9999" maxlength="20" required></label>
+      <div class="lizza-hp" aria-hidden="true"><input name="site" tabindex="-1" autocomplete="off"></div>
+      <button type="submit" class="lizza-botao">Começar a conversa</button>
+      <p class="lizza-aviso">Seus dados são usados só para este atendimento.</p>
+    </form>
+    <div class="lizza-mensagens" id="lizzaMensagens" aria-live="polite"></div>
+  </div>
+  <form class="lizza-rodape" id="lizzaEnviar" hidden>
+    <textarea name="texto" rows="1" maxlength="800" placeholder="Escreva sua mensagem…" aria-label="Sua mensagem"></textarea>
+    <button type="submit" aria-label="Enviar mensagem">➤</button>
+  </form>
+  <a class="lizza-whats" href="https://wa.me/5571927501207" target="_blank" rel="noopener">Prefere o WhatsApp? Fale com a Lizza por lá</a>
+</div>
 <a href="https://wa.me/5571927501207" target="_blank" class="whatsapp-float" aria-label="Fale com a Lizza no WhatsApp">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
@@ -1088,6 +1157,9 @@
 
   // ---- EmailJS - Formulario de cotacao ----
 
+  // O CRM que recebe o formulário e o chat; no computador, o CRM de teste (18/11/2026).
+  const CRM_APOLIZZA = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:3005' : 'https://crm.apolizza.com';
+
   document.getElementById('quoteForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -1114,32 +1186,150 @@
       data_hora:    dataHora
     };
 
-    // A Lizza avisa a diretoria no WhatsApp (18/11/2026). Não segura o e-mail:
-    // se o CRM não responder, o pedido segue pelo EmailJS como sempre.
-    try {
-      fetch('https://crm.apolizza.com/api/site/formulario', {
-        method: 'POST',
-        keepalive: true,
-        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-        body: JSON.stringify({
-          nome: params.from_name, telefone: params.telefone, email: params.email,
-          ramo: params.ramo, mensagem: params.mensagem, site: this.site ? this.site.value : ''
-        })
-      }).catch(function () {});
-    } catch (e) {}
-
-    if (typeof emailjs !== 'undefined') emailjs.send('service_osmhqnn', 'template_yavneyk', params)
-      .then(() => {
-        this.style.display = 'none';
-        document.getElementById('formSuccess').style.display = 'block';
-      })
-      .catch((err) => {
-        console.error('EmailJS erro:', JSON.stringify(err));
+    // O e-mail sai pelo CRM (18/11/2026): informatica@, com cópia para gestao@ e
+    // vanessa.nogueira@, e a Lizza avisa a diretoria no WhatsApp. Se o CRM não
+    // responder, o EmailJS manda como antes (reserva).
+    const form = this;
+    const mostrarSucesso = () => {
+      form.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    };
+    const pelaReserva = () => {
+      if (typeof emailjs === 'undefined') {
         btn.textContent = 'Enviar Solicitação →';
         btn.disabled = false;
-        alert('Erro: ' + (err.text || err.message || JSON.stringify(err)));
-      });
+        alert('Não foi possível enviar agora. Fale com a gente pelo WhatsApp: (71) 92750-1207.');
+        return;
+      }
+      emailjs.send('service_osmhqnn', 'template_yavneyk', params)
+        .then(mostrarSucesso)
+        .catch((err) => {
+          console.error('EmailJS erro:', JSON.stringify(err));
+          btn.textContent = 'Enviar Solicitação →';
+          btn.disabled = false;
+          alert('Erro: ' + (err.text || err.message || JSON.stringify(err)));
+        });
+    };
+    fetch(CRM_APOLIZZA + '/api/site/formulario', {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+      body: JSON.stringify({
+        nome: params.from_name, telefone: params.telefone, email: params.email,
+        ramo: params.ramo, mensagem: params.mensagem, site: form.site ? form.site.value : ''
+      })
+    })
+      .then((r) => r.json())
+      // `teste`: o CRM do computador não manda nada — e o EmailJS também não.
+      .then((j) => { if (j && j.ok && (j.email || j.teste)) mostrarSucesso(); else pelaReserva(); })
+      .catch(pelaReserva);
   });
+</script>
+<script>
+  /* Chat da Lizza no site (18/11/2026). O dono: "um chatzinho rápido no site e faça o
+     mesmo atendimento com a Lizza"; nome e WhatsApp primeiro, "para que assim fique no
+     radar da equipe". A conversa fica no navegador (localStorage) e no CRM (tickets). */
+  (function () {
+    var CRM = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:3005' : 'https://crm.apolizza.com';
+    var WHATS = 'https://wa.me/5571927501207';
+    var CHAVE = 'apolizza_chat_lizza';
+    var $ = function (id) { return document.getElementById(id); };
+    var abrir = $('lizzaAbrir'), chat = $('lizzaChat'), fechar = $('lizzaFechar'), inicio = $('lizzaInicio');
+    var lista = $('lizzaMensagens'), enviar = $('lizzaEnviar'), corpo = $('lizzaCorpo');
+    if (!abrir || !chat) return;
+
+    var estado = null;
+    try { estado = JSON.parse(localStorage.getItem(CHAVE) || 'null'); } catch (e) { estado = null; }
+    function gravar() { try { localStorage.setItem(CHAVE, JSON.stringify(estado)); } catch (e) {} }
+
+    function escapar(t) {
+      return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
+    }
+    function comLinks(t) {
+      return escapar(t)
+        .replace(/https?:\/\/[^\s<]+[^\s<.,;:!?)]/g, function (u) { return '<a href="' + u + '" target="_blank" rel="noopener">' + u + '</a>'; })
+        .replace(/\n/g, '<br>');
+    }
+    function balao(autor, texto, classe) {
+      var d = document.createElement('div');
+      d.className = 'lizza-msg ' + (autor === 'visitante' ? 'eu' : 'ela') + (classe ? ' ' + classe : '');
+      d.innerHTML = comLinks(texto);
+      lista.appendChild(d);
+      corpo.scrollTop = corpo.scrollHeight;
+      return d;
+    }
+    function mostrarConversa() {
+      inicio.hidden = true;
+      enviar.hidden = false;
+      lista.innerHTML = '';
+      (estado.mensagens || []).forEach(function (m) { balao(m.autor, m.texto); });
+    }
+    function mostrarInicio() {
+      lista.innerHTML = '';
+      enviar.hidden = true;
+      inicio.hidden = false;
+    }
+    function abrirChat() {
+      chat.hidden = false;
+      abrir.hidden = true;
+      if (estado && estado.token) { mostrarConversa(); enviar.texto.focus(); } else { mostrarInicio(); inicio.nome.focus(); }
+    }
+    function post(caminho, dados) {
+      return fetch(CRM + caminho, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: JSON.stringify(dados)
+      }).then(function (r) { return r.json(); });
+    }
+
+    abrir.addEventListener('click', abrirChat);
+    fechar.addEventListener('click', function () { chat.hidden = true; abrir.hidden = false; });
+
+    inicio.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var b = inicio.querySelector('button');
+      b.disabled = true;
+      b.textContent = 'Abrindo…';
+      post('/api/site/chat/iniciar', { nome: inicio.nome.value, whatsapp: inicio.whatsapp.value, site: inicio.site.value })
+        .then(function (j) {
+          if (!j || !j.ok) throw new Error((j && j.erro) || 'Não foi possível abrir o chat.');
+          estado = { token: j.token, mensagens: j.mensagens || [] };
+          gravar();
+          mostrarConversa();
+          enviar.texto.focus();
+        })
+        .catch(function (err) { alert(err.message + ' Se preferir, fale com a Lizza pelo WhatsApp: (71) 92750-1207.'); })
+        .then(function () { b.disabled = false; b.textContent = 'Começar a conversa'; });
+    });
+
+    enviar.texto.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar.requestSubmit ? enviar.requestSubmit() : enviar.dispatchEvent(new Event('submit')); }
+    });
+    enviar.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var texto = enviar.texto.value.trim();
+      if (!texto || !estado) return;
+      var botao = enviar.querySelector('button');
+      enviar.texto.value = '';
+      estado.mensagens.push({ autor: 'visitante', texto: texto });
+      gravar();
+      balao('visitante', texto);
+      var aguarde = balao('lizza', 'Lizza está digitando…', 'digitando');
+      botao.disabled = true;
+      post('/api/site/chat/mensagem', { token: estado.token, texto: texto })
+        .then(function (j) {
+          aguarde.remove();
+          if (j && j.recomecar) { estado = null; gravar(); mostrarInicio(); alert('Seu atendimento anterior terminou. Comece um novo, por favor.'); return; }
+          var novas = j && j.ok ? j.mensagens : [{ autor: 'lizza', texto: (j && j.erro) || 'Não consegui responder agora.' }];
+          novas.forEach(function (m) { estado.mensagens.push(m); balao(m.autor, m.texto); });
+          gravar();
+        })
+        .catch(function () {
+          aguarde.remove();
+          balao('lizza', 'Não consegui responder agora. Tente de novo ou fale comigo pelo WhatsApp: ' + WHATS);
+        })
+        .then(function () { botao.disabled = false; enviar.texto.focus(); });
+    });
+  })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("nxt1gxcAXKuVNn2RQ");</script>
