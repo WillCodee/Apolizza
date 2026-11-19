@@ -298,6 +298,9 @@
     .lizza-topo small { display: block; font-size: 12px; opacity: 0.9; }
     .lizza-fechar { margin-left: auto; width: 32px; height: 32px; border: none; border-radius: 50%; background: rgba(255,255,255,0.2); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; }
     .lizza-fechar:hover { background: rgba(255,255,255,0.32); }
+    .lizza-nova { margin-left: auto; height: 30px; padding: 0 12px; border: none; border-radius: 15px; background: rgba(255,255,255,0.2); color: #fff; font: 600 12px Poppins, sans-serif; cursor: pointer; white-space: nowrap; }
+    .lizza-nova:hover { background: rgba(255,255,255,0.32); }
+    .lizza-nova:not([hidden]) + .lizza-fechar { margin-left: 6px; }
     .lizza-corpo { flex: 1; overflow-y: auto; padding: 16px; background: var(--light); }
     .lizza-inicio p { font-size: 14px; color: var(--dark); margin-bottom: 14px; line-height: 1.5; }
     .lizza-inicio label { display: block; font-size: 12px; font-weight: 600; color: var(--gray); margin-bottom: 10px; }
@@ -369,6 +372,7 @@
   <div class="lizza-topo">
     <img src="assets/lizza.jpg" alt="" width="42" height="42">
     <div><strong>Lizza</strong><small>Consultora virtual da Apolizza</small></div>
+    <button type="button" class="lizza-nova" id="lizzaNova" hidden>Nova conversa</button>
     <button type="button" class="lizza-fechar" id="lizzaFechar" aria-label="Fechar o chat">×</button>
   </div>
   <div class="lizza-corpo" id="lizzaCorpo">
@@ -1267,14 +1271,27 @@
     var CRM = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:3005' : 'https://crm.apolizza.com';
     var WHATS = 'https://wa.me/5571927501207';
     var CHAVE = 'apolizza_chat_lizza';
+    /* Recomeçar (19/11/2026): a conversa fica no navegador para não se perder num
+       recarregar, mas recomeça sozinha depois de 24 horas sem mensagem, e o botão
+       "Nova conversa" recomeça quando a pessoa quiser. Nome e WhatsApp ficam
+       preenchidos para o próximo atendimento. */
+    var EXPIRA_MS = 24 * 60 * 60 * 1000;
     var $ = function (id) { return document.getElementById(id); };
-    var abrir = $('lizzaAbrir'), chat = $('lizzaChat'), fechar = $('lizzaFechar'), inicio = $('lizzaInicio');
+    var abrir = $('lizzaAbrir'), chat = $('lizzaChat'), fechar = $('lizzaFechar'), inicio = $('lizzaInicio'), nova = $('lizzaNova');
     var lista = $('lizzaMensagens'), enviar = $('lizzaEnviar'), corpo = $('lizzaCorpo');
     if (!abrir || !chat) return;
 
     var estado = null;
     try { estado = JSON.parse(localStorage.getItem(CHAVE) || 'null'); } catch (e) { estado = null; }
     function gravar() { try { localStorage.setItem(CHAVE, JSON.stringify(estado)); } catch (e) {} }
+    function recomecar() {
+      estado = estado ? { nome: estado.nome || '', whatsapp: estado.whatsapp || '' } : null;
+      gravar();
+    }
+    function venceu() {
+      return !!(estado && estado.token && (!estado.ultima || Date.now() - estado.ultima > EXPIRA_MS));
+    }
+    if (venceu()) recomecar();
 
     function escapar(t) {
       return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
@@ -1295,6 +1312,7 @@
     function mostrarConversa() {
       inicio.hidden = true;
       enviar.hidden = false;
+      if (nova) nova.hidden = false;
       lista.innerHTML = '';
       (estado.mensagens || []).forEach(function (m) { balao(m.autor, m.texto); });
     }
@@ -1302,10 +1320,14 @@
       lista.innerHTML = '';
       enviar.hidden = true;
       inicio.hidden = false;
+      if (nova) nova.hidden = true;
+      if (estado && estado.nome && !inicio.nome.value) inicio.nome.value = estado.nome;
+      if (estado && estado.whatsapp && !inicio.whatsapp.value) inicio.whatsapp.value = estado.whatsapp;
     }
     function abrirChat() {
       chat.hidden = false;
       abrir.hidden = true;
+      if (venceu()) recomecar();
       if (estado && estado.token) { mostrarConversa(); enviar.texto.focus(); } else { mostrarInicio(); inicio.nome.focus(); }
     }
     function post(caminho, dados) {
@@ -1318,6 +1340,12 @@
 
     abrir.addEventListener('click', abrirChat);
     fechar.addEventListener('click', function () { chat.hidden = true; abrir.hidden = false; });
+    if (nova) nova.addEventListener('click', function () {
+      if (!confirm('Começar uma nova conversa? A conversa atual sai desta tela.')) return;
+      recomecar();
+      mostrarInicio();
+      inicio.nome.focus();
+    });
 
     inicio.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -1327,7 +1355,7 @@
       post('/api/site/chat/iniciar', { nome: inicio.nome.value, whatsapp: inicio.whatsapp.value, site: inicio.site.value })
         .then(function (j) {
           if (!j || !j.ok) throw new Error((j && j.erro) || 'Não foi possível abrir o chat.');
-          estado = { token: j.token, mensagens: j.mensagens || [] };
+          estado = { token: j.token, mensagens: j.mensagens || [], nome: inicio.nome.value, whatsapp: inicio.whatsapp.value, ultima: Date.now() };
           gravar();
           mostrarConversa();
           enviar.texto.focus();
@@ -1342,10 +1370,12 @@
     enviar.addEventListener('submit', function (e) {
       e.preventDefault();
       var texto = enviar.texto.value.trim();
-      if (!texto || !estado) return;
+      if (!texto || !estado || !estado.token) return;
+      if (venceu()) { recomecar(); mostrarInicio(); inicio.nome.focus(); return; }
       var botao = enviar.querySelector('button');
       enviar.texto.value = '';
       estado.mensagens.push({ autor: 'visitante', texto: texto });
+      estado.ultima = Date.now();
       gravar();
       balao('visitante', texto);
       var aguarde = balao('lizza', 'Lizza está digitando…', 'digitando');
@@ -1353,9 +1383,10 @@
       post('/api/site/chat/mensagem', { token: estado.token, texto: texto })
         .then(function (j) {
           aguarde.remove();
-          if (j && j.recomecar) { estado = null; gravar(); mostrarInicio(); alert('Seu atendimento anterior terminou. Comece um novo, por favor.'); return; }
+          if (j && j.recomecar) { recomecar(); mostrarInicio(); alert('Seu atendimento anterior terminou. Comece um novo, por favor.'); return; }
           var novas = j && j.ok ? j.mensagens : [{ autor: 'lizza', texto: (j && j.erro) || 'Não consegui responder agora.' }];
           novas.forEach(function (m) { estado.mensagens.push(m); balao(m.autor, m.texto); });
+          estado.ultima = Date.now();
           gravar();
         })
         .catch(function () {
